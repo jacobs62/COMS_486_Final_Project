@@ -2,7 +2,7 @@ package remotion_control;
 /**
  * Class that will generate GUI and manage IRSignalSender and MotionListener
  * 
- * @author Jacob Spoelstra 2017
+ * @author Jacob Spoelstra, David Lauria 2017
  *
  */
 import java.awt.EventQueue;
