@@ -26,15 +26,13 @@ public class IRSignalSender {
 	PrintWriter output;
 	
 	public IRSignalSender(String remoteName, int portno) throws IOException{
-		
-		output = new PrintWriter(s.getOutputStream(), true);
-	
 		this.remoteName = remoteName;
 		this.start(portno);
 	}
 	
 	public void start(int portno) throws IOException{
 		s = new Socket("127.0.0.1", portno);
+		output = new PrintWriter(s.getOutputStream(), true);
 	}
 	
 	public void stop() throws IOException{

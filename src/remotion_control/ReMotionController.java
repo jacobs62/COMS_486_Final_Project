@@ -6,14 +6,20 @@ package remotion_control;
  *
  */
 import java.awt.EventQueue;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import com.leapmotion.leap.*;
+
 public class ReMotionController {
 
 	private JFrame frame;
+	
+	private IRSignalSender sender;
+	private MotionListener listener;
 
 	/**
 	 * Launch the application.
@@ -36,6 +42,18 @@ public class ReMotionController {
 	 */
 	public ReMotionController() {
 		initialize();
+		
+//		try {
+//			sender = new IRSignalSender("Samsung_BN59-00940A", 8765);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return;
+//		}
+////		sender.powerOn();
+//		listener = new MotionListener(sender);
+//		Controller controller = new Controller();
+//		controller.addListener(listener);
 	}
 
 	/**

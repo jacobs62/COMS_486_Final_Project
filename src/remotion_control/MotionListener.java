@@ -10,6 +10,13 @@ import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.State;
 
 public class MotionListener extends Listener {
+	
+	IRSignalSender irDevice;
+	
+	public MotionListener(IRSignalSender sender){
+		super();
+		irDevice = sender;
+	}
 
 	public void onConnect(Controller controller) {
 		controller.enableGesture(Gesture.Type.TYPE_SWIPE);
@@ -21,7 +28,6 @@ public class MotionListener extends Listener {
 	public void onFrame(Controller controller) {
 		Frame frame = controller.frame();
 	
-
 		GestureList gestures = frame.gestures();
 		for (int i = 0; i < gestures.count(); i++) {
 			Gesture gesture = gestures.get(i);
@@ -33,8 +39,10 @@ public class MotionListener extends Listener {
 				
 				if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI / 2) {
 					//volume up cause clockwise
+					irDevice.volumeUp();
 				} else {
 					//volume down cause counter clockwise
+					irDevice.volumeDown();
 				}
 
 				break;
@@ -42,14 +50,18 @@ public class MotionListener extends Listener {
 				SwipeGesture swipe = new SwipeGesture(gesture);
 					if(swipe.direction().getX() > 0){
 						// channel up
+						irDevice.channelUp();
 					}
 					else{
 						//channel down
+						irDevice.channelDown();
 					}
 					
 				break;
 			case TYPE_SCREEN_TAP:
 				//power?
+				System.out.println("Tap recognized");
+				irDevice.powerOn();
 				break;
 			case TYPE_KEY_TAP:
 				//power?
