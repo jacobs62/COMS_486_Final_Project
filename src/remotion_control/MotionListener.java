@@ -5,6 +5,15 @@ package remotion_control;
  * @author Jacob Spoelstra 2017
  *
  */
-public class MotionListener {
+import com.leapmotion.leap.*;
 
+public class MotionListener extends Listener {
+
+	public void onConnect(Controller controller){
+		//TODO: enable gestures
+	}
+	
+	public void onFrame(Controller controller){
+		//TODO: take actions on frame
+	}
 }
