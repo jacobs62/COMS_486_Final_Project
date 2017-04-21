@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.print.attribute.standard.PrinterLocation;
+
 /**
  * Class that will handle connection to WinLIRC to send signals to IRToy
  * 
@@ -64,6 +66,7 @@ public class IRSignalSender {
 	}
 	
 	private void send(String signal){
+		System.out.println(signal);
 		String toSend = "SEND_ONCE " + remoteName + " " + signal;
 		output.println(toSend);
 		
