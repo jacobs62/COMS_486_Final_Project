@@ -12,6 +12,7 @@ import com.leapmotion.leap.Gesture.State;
 public class MotionListener extends Listener {
 	
 	IRSignalSender irDevice;
+	private int circleProgress = 0;
 	
 	public MotionListener(IRSignalSender sender){
 		super();
@@ -31,40 +32,54 @@ public class MotionListener extends Listener {
 		GestureList gestures = frame.gestures();
 		for (int i = 0; i < gestures.count(); i++) {
 			Gesture gesture = gestures.get(i);
-System.out.println("gesture");
+
 			switch (gesture.type()) {
 			case TYPE_CIRCLE:
 				CircleGesture circle = new CircleGesture(gesture);
 
+				boolean up = false;
 				
 				if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI / 2) {
-					//volume up cause clockwise
-					irDevice.volumeUp();
-				} else {
-					//volume down cause counter clockwise
-					irDevice.volumeDown();
+					up = true;
+				}
+				
+				if((int)circle.progress() > circleProgress){
+					circleProgress = (int)circle.progress();
+					if(up){
+						irDevice.volumeUp();
+					} else {
+						irDevice.volumeDown();
+					}
+				}
+				
+				if(circle.state() == State.STATE_STOP){
+					circleProgress = 0;
 				}
 
 				break;
 			case TYPE_SWIPE:
 				SwipeGesture swipe = new SwipeGesture(gesture);
+				
+				boolean channelUp = false;
+				
 					if(swipe.direction().getX() > 0){
-						// channel up
-						irDevice.channelUp();
+						channelUp=true;
 					}
-					else{
-						//channel down
-						irDevice.channelDown();
+					
+					if(swipe.state() == State.STATE_STOP){
+						if(channelUp){
+							irDevice.channelUp();
+						} else {
+							irDevice.channelDown();
+						}
 					}
 					
 				break;
 			case TYPE_SCREEN_TAP:
-				//power?
-				System.out.println("Tap recognized");
 				irDevice.powerOn();
 				break;
 			case TYPE_KEY_TAP:
-				//power?
+				
 				break;
 			default:
 				System.out.println("Unknown gesture type.");
