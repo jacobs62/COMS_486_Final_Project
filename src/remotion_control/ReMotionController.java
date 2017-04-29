@@ -22,12 +22,25 @@ import javax.swing.JLabel;
 import com.leapmotion.leap.Controller;
 
 public class ReMotionController {
-
+	/**
+	 * Frame of GUI
+	 */
 	private JFrame frame;
-	
+	/**
+	 * IRSignalSender to send IR signals
+	 */
 	private IRSignalSender sender;
+	/**
+	 * MotionListener to listen for signals from LeapMotion controller
+	 */
 	private MotionListener listener;
+	/**
+	 * LeapMotion controller
+	 */
 	private Controller controller;
+	/**
+	 * Array of remote name Strings
+	 */
 	private String[] remoteOptions;
 
 	/**
@@ -81,14 +94,15 @@ public class ReMotionController {
 		});
 		frame.getContentPane().add(startButton);
 	}
-	
+	/**
+	 * Scan through remote_config.txt and find names of remotes for dropdown menu
+	 */
 	private void setupRemoteOptions(){
 		File f = new File("remote_config.txt");
 		Scanner scanFile;
 		try {
 			scanFile = new Scanner(f);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
@@ -114,18 +128,21 @@ public class ReMotionController {
 		
 		scanFile.close();
 	}
-	
+	/**
+	 * Start listening for gestures and sending after user clicks start button
+	 * @param remoteName
+	 */
 	private void start(String remoteName){	
 		try {
 			sender = new IRSignalSender(remoteName, 8765);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
 		listener = new MotionListener(sender);
 		Controller controller = new Controller();
 		controller.addListener(listener);
+		//Loop forever (keep listening)
 		while(true);
 	}
 }
